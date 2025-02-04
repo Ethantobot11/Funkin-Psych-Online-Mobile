@@ -155,7 +155,7 @@ class GameClient {
 		Thread.run(() -> {
 			if (debugReconnectDelay > 0)
 				Sys.sleep(debugReconnectDelay);
-			client.reconnect(room.reconnectionToken, GameRoom, (err, newRoom) -> {
+			client.reconnect(room.reconnectionToken, GameRoom, (err, newRoom:Room<GameRoom>) -> {
 				if (err != null) {
 					trace(err.code + " - " + err.message);
 					Waiter.put(() -> {
@@ -165,13 +165,17 @@ class GameClient {
 					return;
 				}
 
-				_onJoin(err, newRoom, GameClient.isOwner, GameClient.address);
-				if (addListeners != null)
-					addListeners();
-				sendPending();
-				Waiter.put(() -> {
-					Alert.alert("Reconnected!");
-				});
+				newRoom.onStateChange += _ -> {
+					newRoom.onStateChange = new EventHandler<Dynamic->Void>();
+
+					_onJoin(err, newRoom, GameClient.isOwner, GameClient.address);
+					if (addListeners != null)
+						addListeners();
+					sendPending();
+					Waiter.put(() -> {
+						Alert.alert("Reconnected!");
+					});
+				};
 			});
 		});
 	}

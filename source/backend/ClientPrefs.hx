@@ -162,9 +162,9 @@ class ClientPrefs {
 		'back'			=> [B],
 		'pause'			=> [START],
 		'reset'			=> [BACK],
-		'taunt'			=> [A],
+		'taunt'			=> [RIGHT_STICK_CLICK],
 		'sidebar'		=> [],
-		'fav'			=> []
+		'fav'			=> [Y]
 	];
 	public static var mobileBinds:Map<String, Array<MobileInputID>> = [
 		'note_up'		=> [NOTE_UP],
@@ -256,6 +256,8 @@ class ClientPrefs {
 		#if (!html5 && !switch)
 		FlxG.autoPause = ClientPrefs.data.autoPause;
 		#end
+
+		FlxSprite.defaultAntialiasing = ClientPrefs.data.antialiasing;
 
 		if (ClientPrefs.data.unlockFramerate) {
 			FlxG.updateFramerate = 1000;
