@@ -108,6 +108,7 @@ import states.TitleState;
 	public var hiddenSongs:Array<String> = []; //format: 'songname-originfolder'
 	public var favSongs:Array<String> = []; //format: 'songname-originfolder'
 	public var modchartSkinChanges:Bool = false;
+	public var colorRating:Bool = false;
 
 	public function new()
 	{
