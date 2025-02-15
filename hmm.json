@@ -62,8 +62,8 @@
       "name": "hxCodec",
       "type": "git",
       "dir": null,
-      "ref": "master",
-      "url": "https://github.com/MobilePorting/hxCodec.git"
+      "ref": "main",
+      "url": "https://github.com/MobilePorting/hxCodec"
     },
     {
       "name": "SScript",
