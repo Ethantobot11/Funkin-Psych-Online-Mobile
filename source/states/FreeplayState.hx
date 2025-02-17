@@ -942,7 +942,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 		else {
-			if (controls.BACK) {
+			if (controls.BACK || songs[curSelected] == null) {
 				selected = false;
 				selectedItem = 0;
 				setDiffVisibility(true);

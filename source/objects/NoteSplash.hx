@@ -1,5 +1,6 @@
 package objects;
 
+import online.GameClient;
 import shaders.RGBPalette;
 import flixel.graphics.frames.FlxFrame;
 

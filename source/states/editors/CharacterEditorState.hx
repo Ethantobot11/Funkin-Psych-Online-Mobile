@@ -1,11 +1,11 @@
 package states.editors;
 
+import openfl.display.BitmapData;
 import online.states.SkinsState;
 import flixel.FlxObject;
 import flixel.graphics.FlxGraphic;
 import flixel.animation.FlxAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
@@ -24,6 +24,9 @@ import objects.HealthBar;
 #if MODS_ALLOWED
 import sys.FileSystem;
 #end
+
+@:bitmap("assets/images/debugger/cursorCross.png")
+class FlixelGraphicCursorCross extends BitmapData {}
 
 class CharacterEditorState extends MusicBeatState {
 	var char:Character;
@@ -110,11 +113,11 @@ class CharacterEditorState extends MusicBeatState {
 		charLayer = new FlxTypedGroup<Character>();
 		add(charLayer);
 
-		var pointer:FlxGraphic = FlxGraphic.fromClass(GraphicCursorCross);
+		var pointer:FlxGraphic = FlxGraphic.fromClass(FlixelGraphicCursorCross);
 		cameraFollowPointer = new FlxSprite().loadGraphic(pointer);
-		cameraFollowPointer.setGraphicSize(40, 40);
-		cameraFollowPointer.updateHitbox();
+		updateCamPointerZoom();
 		cameraFollowPointer.color = FlxColor.WHITE;
+		cameraFollowPointer.antialiasing = false; //global antialiasing is set by psych online to true
 		add(cameraFollowPointer);
 
 		changeBGbutton = new FlxButton(FlxG.width - 360, 25, "", function() {
@@ -1037,8 +1040,8 @@ class CharacterEditorState extends MusicBeatState {
 		}
 		y -= 100 - char.cameraPosition[1];
 
-		x -= cameraFollowPointer.width / 2;
-		y -= cameraFollowPointer.height / 2;
+		// x -= cameraFollowPointer.width / 2;
+		// y -= cameraFollowPointer.height / 2;
 		cameraFollowPointer.setPosition(x, y);
 	}
 
@@ -1246,17 +1249,20 @@ class CharacterEditorState extends MusicBeatState {
 
 			if (touchPad.buttonZ.justPressed || FlxG.keys.justPressed.R) {
 				FlxG.camera.zoom = 1;
+				updateCamPointerZoom();
 			}
 
 			if (touchPad.buttonX.pressed || FlxG.keys.pressed.E && FlxG.camera.zoom < 3) {
 				FlxG.camera.zoom += elapsed * FlxG.camera.zoom;
 				if (FlxG.camera.zoom > 3)
 					FlxG.camera.zoom = 3;
+				updateCamPointerZoom();
 			}
 			if (touchPad.buttonY.pressed || FlxG.keys.pressed.Q && FlxG.camera.zoom > 0.1) {
 				FlxG.camera.zoom -= elapsed * FlxG.camera.zoom;
 				if (FlxG.camera.zoom < 0.1)
 					FlxG.camera.zoom = 0.1;
+				updateCamPointerZoom();
 			}
 
 			if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L) {
@@ -1366,6 +1372,12 @@ class CharacterEditorState extends MusicBeatState {
 		// camMenu.zoom = FlxG.camera.zoom;
 		ghostChar.setPosition(char.x, char.y);
 		super.update(elapsed);
+	}
+
+	function updateCamPointerZoom() {
+		cameraFollowPointer.setGraphicSize(40 / FlxG.camera.zoom, 40 / FlxG.camera.zoom);
+		cameraFollowPointer.updateHitbox();
+		cameraFollowPointer.offset.set(cameraFollowPointer.frameWidth / 2, cameraFollowPointer.frameHeight / 2);
 	}
 
 	var _file:FileReference;
