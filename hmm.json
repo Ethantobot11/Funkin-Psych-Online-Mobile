@@ -97,9 +97,11 @@
       "version": "3.4.0"
     },
     {
-      "name": "unrar",
-      "type": "haxelib",
-      "version": "1.0.0"
+      "name": "UnRAR",
+      "type": "git",
+      "dir": null,
+      "ref": "main",
+      "url": "https://github.com/MobilePorting/Haxe-UnRAR"
     },
     {
       "name": "away3d",
