@@ -73,11 +73,11 @@
       "url": "https://github.com/mcagabe19-stuff/SScript-7.7.0"
     },
     {
-      "name": "discord_rpc",
+      "name": "hxdiscord_rpc",
       "type": "git",
       "dir": null,
       "ref": "master",
-      "url": "https://github.com/MobilePorting/linc_discord-rpc-0.6.3"
+      "url": "https://github.com/MobilePorting/hxdiscord_rpc"
     },
     {
       "name": "linc_luajit",
