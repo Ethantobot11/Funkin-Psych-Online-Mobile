@@ -16,9 +16,9 @@ class DiscordClient
 	public static var clientID(default, set):String = _defaultID;
 	private static var presence:DiscordRichPresence = #if (hxdiscord_rpc > "1.2.4") new DiscordRichPresence(); #else DiscordRichPresence.create(); #end
 
-	static function onRequest(req:DiscordRichPresence) {
+	/*static function onRequest(req:DiscordRichPresence) {
 		Discord.Respond(req.userId, !GameClient.room.state.isPrivate ? DiscordActivityJoinRequestReply_Yes : DiscordActivityJoinRequestReply_No);
-	}
+	}*/
 
 	static function onJoin(secret:String) {
 		Waiter.put(() -> {
