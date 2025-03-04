@@ -114,7 +114,6 @@
 	<haxelib name="SScript" if="HSCRIPT_ALLOWED" />
 	<haxelib name="hxCodec" if="VIDEOS_ALLOWED" />
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED" />
-	<haxelib name="extension-androidtools" if="android" />
 	<haxelib name="tjson" />
 	<haxelib name="colyseus" />
 	<haxelib name="HtmlParser" />

@@ -153,13 +153,6 @@
       "name": "tink_core",
       "type": "haxelib",
       "version": "2.1.1"
-    },
-    {
-      "name": "extension-androidtools",
-      "type": "git",
-      "dir": null,
-      "ref": "main",
-      "url": "https://github.com/MAJigsaw77/extension-androidtools/"
     }
   ]
 }
