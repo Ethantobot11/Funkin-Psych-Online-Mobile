@@ -23,13 +23,7 @@ class OptionsState extends MusicBeatState
 			case 'Note Colors':
 				openSubState(new options.NotesSubState());
 			case 'Controls':
-				switch (controls.mobileC)
-				{
-					case true:
-						persistentUpdate = false;
-						openSubState(new mobile.substates.MobileControlSelectSubState());
-					default: openSubState(new options.ControlsSubState());
-				}
+				openSubState(new options.ControlsSubState());
 			case 'Graphics and Performance':
 				openSubState(new options.GraphicsSettingsSubState());
 			case 'Visuals and UI':
@@ -61,6 +55,16 @@ class OptionsState extends MusicBeatState
 		bg.screenCenter();
 		add(bg);
 
+		if (controls.mobileC)
+		{
+			tipText = new FlxText(150, FlxG.height - 24, 0, 'Press ' + (FlxG.onMobile ? 'C' : 'CTRL or C') + ' to Go Mobile Controls Menu', 16);
+			tipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			tipText.borderSize = 1.25;
+			tipText.scrollFactor.set();
+			tipText.antialiasing = ClientPrefs.data.antialiasing;
+			add(tipText);
+		}
+
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
@@ -80,7 +84,7 @@ class OptionsState extends MusicBeatState
 		changeSelection();
 		ClientPrefs.saveSettings();
 
-		addTouchPad('UP_DOWN', 'A_B');
+		addTouchPad('UP_DOWN', 'A_B_C');
 
 		super.create();
 
@@ -92,7 +96,7 @@ class OptionsState extends MusicBeatState
 		ClientPrefs.saveSettings();
 		controls.isInSubstate = false;
 		removeTouchPad();
-		addTouchPad('UP_DOWN', 'A_B');
+		addTouchPad('UP_DOWN', 'A_B_C');
 		persistentUpdate = true;
 	}
 
@@ -104,6 +108,12 @@ class OptionsState extends MusicBeatState
 		}
 		if (controls.UI_DOWN_P) {
 			changeSelection(1);
+		}
+
+		if (touchPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL && controls.mobileC)
+		{
+			persistentUpdate = false;
+			openSubState(new MobileControlSelectSubState());
 		}
 
 		if (controls.BACK) {
