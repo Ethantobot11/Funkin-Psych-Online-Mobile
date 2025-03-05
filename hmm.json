@@ -10,14 +10,14 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/mcagabe19-stuff/lime.git"
+      "url": "https://github.com/MobilePorting/lime.git"
     },
     {
       "name": "openfl",
       "type": "git",
       "dir": null,
       "ref": "9.3.3",
-      "url": "https://github.com/mcagabe19-stuff/openfl.git"
+      "url": "https://github.com/MobilePorting/openfl.git"
     },
     {
       "name": "flixel",
@@ -46,7 +46,7 @@
       "type": "git",
       "dir": null,
       "ref": "master",
-      "url": "https://github.com/mcagabe19-stuff/hxcpp.git"
+      "url": "https://github.com/MobilePorting/hxcpp.git"
     },
     {
       "name": "tjson",
@@ -70,7 +70,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/mcagabe19-stuff/SScript-7.7.0"
+      "url": "https://github.com/MobilePorting/SScript-7.7.0"
     },
     {
       "name": "hxdiscord_rpc",
@@ -84,7 +84,7 @@
       "type": "git",
       "dir": null,
       "ref": "master",
-      "url": "https://github.com/MobilePorting/linc_luajit-0.7plus"
+      "url": "https://github.com/MobilePorting/linc_luajit"
     },
     {
       "name": "colyseus",
