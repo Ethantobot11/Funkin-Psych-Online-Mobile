@@ -16,6 +16,8 @@ import flixel.ui.FlxButton;
 import openfl.net.FileReference;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
+import openfl.events.MouseEvent;
+import openfl.geom.Point;
 import lime.system.Clipboard;
 import tjson.TJSON as Json;
 import objects.Character;
@@ -43,6 +45,9 @@ class CharacterEditorState extends MusicBeatState {
 	var goToPlayState:Bool = true;
 	var goToSkins:Bool = true;
 	var camFollow:FlxObject;
+
+	var cameraPosition:Point = new Point();
+	var isDragging:Bool = false;
 
 	public function new(daAnim:String = 'spooky', goToPlayState:Bool = true, ?goToSkins:Bool = false) {
 		super();
@@ -227,6 +232,13 @@ class CharacterEditorState extends MusicBeatState {
 
 		addTouchPad('LEFT_FULL', 'A_B_C_D_V_X_Y_Z');
 		addTouchPadCamera();
+
+		if (controls.mobileC)
+		{
+			FlxG.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
+			FlxG.stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
+			FlxG.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
+		}
 
 		super.create();
 	}
@@ -1199,7 +1211,6 @@ class CharacterEditorState extends MusicBeatState {
 		#end
 	}
 
-	var cameraPosition:Array<Float> = [0, 0];
 	var overlapsToButton:Bool = false;
 	override function update(elapsed:Float) {
 		MusicBeatState.camBeat = FlxG.camera;
@@ -1288,21 +1299,6 @@ class CharacterEditorState extends MusicBeatState {
 				else
 					overlapsToButton = false;
 			});
-
-			if (controls.mobileC && !overlapsToButton)
-			{
-				var mouse = FlxG.mouse.getScreenPosition(); // using FlxG.mouse cuz FlxTouch suck
-				if (FlxG.mouse.justPressed && !FlxG.mouse.overlaps(UI_characterbox))
-				{
-					cameraPosition[0] = camFollow.x + mouse.x;
-					cameraPosition[1] = camFollow.y + mouse.y;
-				}
-				else if (FlxG.mouse.pressed && !FlxG.mouse.overlaps(UI_characterbox))
-				{
-					camFollow.x = cameraPosition[0] - mouse.x;
-					camFollow.y = cameraPosition[1] - mouse.y;
-				}
-			}
 
 			if (char.animationsArray.length > 0) {
 				if (touchPad.buttonV.justPressed || FlxG.keys.justPressed.W) {
@@ -1465,5 +1461,26 @@ class CharacterEditorState extends MusicBeatState {
 
 		var text:String = prefix + Clipboard.text.replace('\n', '');
 		return text;
+	}
+
+	function onMouseEvent(e:MouseEvent):Void
+	{
+		if (!touchPad.anyPressed([ANY]))
+			switch (e.type)
+			{
+				case MouseEvent.MOUSE_DOWN:
+					var mouse = new Point(e.stageX, e.stageY); // OpenFL mouse position
+					cameraPosition.x = camFollow.x + mouse.x;
+					cameraPosition.y = camFollow.y + mouse.y;
+					isDragging = true;
+
+				case MouseEvent.MOUSE_MOVE if (isDragging):
+					var mouse = new Point(e.stageX, e.stageY);
+					camFollow.x = cameraPosition.x - mouse.x;
+					camFollow.y = cameraPosition.y - mouse.y;
+
+				case MouseEvent.MOUSE_UP:
+					isDragging = false;
+			}
 	}
 }
