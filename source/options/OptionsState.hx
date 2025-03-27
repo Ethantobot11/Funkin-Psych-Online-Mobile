@@ -113,7 +113,7 @@ class OptionsState extends MusicBeatState
 		if (touchPad.buttonC.justPressed || FlxG.keys.justPressed.CONTROL && controls.mobileC)
 		{
 			persistentUpdate = false;
-			openSubState(new MobileControlSelectSubState());
+			openSubState(new mobile.substates.MobileControlSelectSubState());
 		}
 
 		if (controls.BACK) {
