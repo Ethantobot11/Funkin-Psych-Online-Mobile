@@ -14,10 +14,8 @@
     },
     {
       "name": "openfl",
-      "type": "git",
-      "dir": null,
-      "ref": "9.3.3",
-      "url": "https://github.com/MobilePorting/openfl.git"
+      "type": "haxelib",
+      "version": "9.3.3"
     },
     {
       "name": "flixel",
@@ -45,7 +43,7 @@
       "name": "hxcpp",
       "type": "git",
       "dir": null,
-      "ref": "master",
+      "ref": "main",
       "url": "https://github.com/MobilePorting/hxcpp.git"
     },
     {
@@ -62,8 +60,8 @@
       "name": "hxCodec",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "https://github.com/MobilePorting/hxCodec"
+      "ref": "cafc58e9046505ff93fa659339808b53faa5d6f3",
+      "url": "https://github.com/polybiusproxy/hxCodec"
     },
     {
       "name": "SScript",
@@ -74,10 +72,8 @@
     },
     {
       "name": "hxdiscord_rpc",
-      "type": "git",
-      "dir": null,
-      "ref": "main",
-      "url": "https://github.com/MobilePorting/hxdiscord_rpc"
+      "type": "haxelib",
+      "version": null
     },
     {
       "name": "linc_luajit",
@@ -97,11 +93,9 @@
       "version": "3.4.0"
     },
     {
-      "name": "UnRAR",
-      "type": "git",
-      "dir": null,
-      "ref": "main",
-      "url": "https://github.com/MobilePorting/Haxe-UnRAR"
+      "name": "unrar",
+      "type": "haxelib",
+      "version": "1.0.0"
     },
     {
       "name": "away3d",
