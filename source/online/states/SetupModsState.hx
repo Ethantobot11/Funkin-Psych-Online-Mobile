@@ -170,8 +170,8 @@ class SetupModsState extends MusicBeatState {
 
 	function getItemName(item:Int) {
 		if (item == curSelected && inInput)
-			return modsInput[item];
-		return swagMods[item];
+			return modsInput[item] ?? "null";
+		return swagMods[item] ?? "null";
 	}
 
 	function onKeyDown(e:KeyboardEvent) {
