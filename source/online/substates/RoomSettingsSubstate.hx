@@ -177,6 +177,7 @@ class RoomSettingsSubstate extends MusicBeatSubstate {
 
 		items.add(skinSelect = new Option("Select Skin", "Select your skin here!", () -> {
 			if (!GameClient.room.state.disableSkins) {
+				controls.isInSubstate = false;
 				LoadingState.loadAndSwitchState(new SkinsState());
 			}
 			else {
@@ -265,7 +266,7 @@ class RoomSettingsSubstate extends MusicBeatSubstate {
 				curSelectedID = option.ID;
             }
 
-			if (FlxG.mouse.overlaps(option, camera) && FlxG.mouse.justPressed) {
+			if (FlxG.mouse.overlaps(option, camera) && FlxG.mouse.justReleased) {
 				option.onClick();
 			}
 
