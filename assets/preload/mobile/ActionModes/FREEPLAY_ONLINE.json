@@ -52,16 +52,23 @@
     {
       "button": "buttonR",
       "graphic": "r",
-      "x": 1032,
-      "y": 348,
+      "x": 784,
+      "y": 472,
       "color": "0xBEBD7F"
     },
     {
       "button": "buttonF",
       "graphic": "f",
-      "x": 908,
-      "y": 348,
+      "x": 784,
+      "y": 596,
       "color": "0xA87932"
+    },
+    {
+      "button": "buttonG",
+      "graphic": "g",
+      "x": 1032,
+      "y": 348,
+      "color": "0xFF009D"
     }
   ]
 }

@@ -180,6 +180,7 @@ class FreeplayState extends MusicBeatState
 
 	var curSkin:Array<String> = [null, null];
 
+	static var buttonS = (Controls.instance.mobileC) ? "S" : "F";
 	override function create()
 	{
 		instance = this;
@@ -359,7 +360,7 @@ class FreeplayState extends MusicBeatState
 		scoreBG.scrollFactor.set();
 		scoreBG.cameras = [hudCamera];
 
-		searchInput = new FlxText(scoreText.x, scoreText.y + 36, 0, "PRESS F TO SEARCH", 24);
+		searchInput = new FlxText(scoreText.x, scoreText.y + 36, 0, "PRESS " + buttonS + " TO SEARCH", 24);
 		searchInput.font = scoreText.font;
 		searchInput.scrollFactor.set();
 
@@ -690,7 +691,7 @@ class FreeplayState extends MusicBeatState
 
 		for (i => directory in directories) {
 			if (FileSystem.exists(directory)) {
-				for (file in FileSystem.readDirectory(directory)) {
+				for (file in Paths.readDirectory(directory)) {
 					var path = haxe.io.Path.join([directory, file]);
 					if (!sys.FileSystem.isDirectory(path) && file.endsWith('.json')) {
 						var charToCheck:String = file.substr(0, file.length - 5);
@@ -747,7 +748,7 @@ class FreeplayState extends MusicBeatState
 
 		super.closeSubState();
 		removeTouchPad();
-		addTouchPad('LEFT_FULL', (GameClient.isConnected()) ? 'A_B_C_X_Y_Z_S_R_F' : 'A_B_X_Y_Z_S_R_F');
+		addTouchPad('LEFT_FULL', (GameClient.isConnected()) ? 'FREEPLAY_ONLINE' : 'FREEPLAY');
 		addTouchPadCamera();
 	}
 
@@ -980,6 +981,7 @@ class FreeplayState extends MusicBeatState
 						searchGroupValue = i;
 						search();
 						updateGroupTitle();
+						removeTouchPad();
 						return true;
 					}, (i, leText) -> {
 						if (searchGroup == MIX) {
@@ -1972,7 +1974,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		FreeplayState.instance.searchInput.alpha = 0.6;
-		FreeplayState.instance.searchInput.text = 'PRESS F TO SEARCH';
+		FreeplayState.instance.searchInput.text = 'PRESS $buttonS TO SEARCH';
 		return searchString = v;
 	}
 

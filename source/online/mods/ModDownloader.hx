@@ -21,7 +21,7 @@ class ModDownloader {
 	}
 	public var onStatus:DownloaderStatus->Void;
 
-	static var downloadDir:String = openfl.filesystem.File.applicationDirectory.nativePath + "/downloads/";
+	static var downloadDir:String = #if mobile Sys.getCwd() #else openfl.filesystem.File.applicationDirectory.nativePath #end + "/downloads/";
 	var downloadPath:String;
 	var id:String;
 	public var url:String;

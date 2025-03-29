@@ -38,6 +38,7 @@ class SoFunkinSubstate extends MusicBeatSubstate {
 		this.iconCallback = iconCallback;
     }
 
+	var buttonS = (Controls.instance.mobileC) ? "S" : "F";
 	override function create() {
 		lerpSelected = curSelected;
 
@@ -60,7 +61,7 @@ class SoFunkinSubstate extends MusicBeatSubstate {
 		searchUnderlay.alpha = 0.6;
 		add(searchUnderlay);
 
-		searchInput = new FlxText(0, 0, "PRESS F TO SEARCH");
+		searchInput = new FlxText(0, 0, "PRESS " + buttonS + " TO SEARCH");
 		searchInput.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 		searchInput.scrollFactor.set();
 		add(searchInput);
@@ -79,7 +80,8 @@ class SoFunkinSubstate extends MusicBeatSubstate {
 
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 
-		addTouchPad("UP_DOWN", "A_B");
+		addTouchPad("LEFT_FULL", "A_B_S");
+		addTouchPadCamera();
 
 		super.create();
 	}
@@ -99,7 +101,7 @@ class SoFunkinSubstate extends MusicBeatSubstate {
 		}
 
 		searchInput.alpha = 0.6;
-		searchInput.text = 'PRESS F TO SEARCH';
+		searchInput.text = 'PRESS $buttonS TO SEARCH';
 		reposSearch();
 		return searchString = v;
 	}
@@ -208,7 +210,7 @@ class SoFunkinSubstate extends MusicBeatSubstate {
 
 		updateScrollable(groupTitle, elapsed);
 
-		if (!searchInputWait && FlxG.keys.justPressed.F) {
+		if (!searchInputWait && (touchPad.buttonS.justPressed || FlxG.keys.justPressed.F)) {
 			searchInputWait = true;
 			searchString = searchString;
 		}

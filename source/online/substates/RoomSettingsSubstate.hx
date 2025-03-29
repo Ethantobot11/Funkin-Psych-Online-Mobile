@@ -208,6 +208,7 @@ class RoomSettingsSubstate extends MusicBeatSubstate {
 		GameClient.send("status", "In the Room Settings");
 
 		addTouchPad('NONE', 'B');
+		addTouchPadCamera();
 		controls.isInSubstate = true;
 	}
 

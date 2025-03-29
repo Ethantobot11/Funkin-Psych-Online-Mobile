@@ -458,6 +458,7 @@ class SkinsState extends MusicBeatState {
 				if (selectTimer != null)
 					selectTimer.active = true;
 				setCharacter(i - curCharacter);
+				removeTouchPad();
 				return true;
 			}, (i, leText) -> {
 				Mods.currentModDirectory = charactersMod.get(charactersName[i]);

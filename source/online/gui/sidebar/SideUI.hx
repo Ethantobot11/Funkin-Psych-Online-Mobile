@@ -67,9 +67,12 @@ class SideUI extends WSprite {
 
 		instance = this;
 
-		for (file in FileSystem.readDirectory('assets/images/sidebar')) {
-			Paths.excludeAsset('assets/images/sidebar/' + file);
+		try {
+			for (file in Paths.readDirectory('assets/images/sidebar')) {
+				Paths.excludeAsset('assets/images/sidebar/' + file);
+			}
 		}
+		catch (e:Dynamic) {}
 
 		if (stage != null)
 			init();
