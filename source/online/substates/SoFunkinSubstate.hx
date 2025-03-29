@@ -107,7 +107,7 @@ class SoFunkinSubstate extends MusicBeatSubstate {
 	}
 
 	function set_searchInputWait(v) {
-		searchInputWait = v;
+		FlxG.stage.window.textInputEnabled = searchInputWait = v;
 		searchString = searchString;
 		return searchInputWait;
 	}
@@ -217,7 +217,6 @@ class SoFunkinSubstate extends MusicBeatSubstate {
 
 		if (searchInputWait) {
 			if (disableInputWaitNext) {
-				FlxG.stage.window.textInputEnabled = false;
 				disableInputWaitNext = false;
 				searchInputWait = false;
 			}

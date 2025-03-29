@@ -180,7 +180,7 @@ class FreeplayState extends MusicBeatState
 
 	var curSkin:Array<String> = [null, null];
 
-	static var buttonS = (Controls.instance.mobileC) ? "S" : "F";
+	static var buttonS = "";
 	override function create()
 	{
 		instance = this;
@@ -360,6 +360,7 @@ class FreeplayState extends MusicBeatState
 		scoreBG.scrollFactor.set();
 		scoreBG.cameras = [hudCamera];
 
+		buttonS = (controls.mobileC) ? "S" : "F";
 		searchInput = new FlxText(scoreText.x, scoreText.y + 36, 0, "PRESS " + buttonS + " TO SEARCH", 24);
 		searchInput.font = scoreText.font;
 		searchInput.scrollFactor.set();
@@ -976,12 +977,12 @@ class FreeplayState extends MusicBeatState
 					var daCopy = searchGroupVList.copy();
 					for (i => item in daCopy)
 						daCopy[i] = formatGroupItem(item);
-					
+
+					touchPad.visible = false;
 					var selState = new online.substates.SoFunkinSubstate(daCopy, searchGroupValue, i -> {
 						searchGroupValue = i;
 						search();
 						updateGroupTitle();
-						removeTouchPad();
 						return true;
 					}, (i, leText) -> {
 						if (searchGroup == MIX) {
