@@ -1,6 +1,7 @@
 package online;
 
-import online.gui.sidebar.MainTab;
+import haxe.Json;
+import online.gui.sidebar.tabs.ChatTab;
 import online.GameClient.Error;
 import online.backend.schema.NetworkSchema;
 import online.network.Auth;
@@ -38,27 +39,59 @@ class NetworkClient {
 		NetworkClient.room = null;
         if (err != null) {
 			Waiter.put(() -> {
-				MainTab.addMessage('Failed to connect to the network chatroom! (Reopen this tab to try again)');
+				ChatTab.addMessage('Failed to connect to the network chatroom! (Reopen this tab to try again)');
 			});
-            trace(err);
+            //trace(err);
             return;
         }
 
 		Waiter.put(() -> {
-		    MainTab.addMessage('Connected to the network chatroom!');
+			ChatTab.addMessage('Connected to the network chatroom!');
         });
 
 		NetworkClient.room = room;
 
 		room.onMessage("log", function(message) {
 			Waiter.put(() -> {
-				MainTab.addMessage(message);
+				ChatTab.addMessage(message);
+			});
+		});
+
+		room.onMessage("batchLog", function(message) {
+			var logs:Array<String> = Json.parse(message);
+			Waiter.put(() -> {
+				for (log in logs) {
+					ChatTab.addMessage(log);
+				}
 			});
 		});
 
 		room.onMessage("notification", function(message) {
 			Waiter.put(() -> {
 				Alert.alert(message);
+			});
+		});
+
+		room.onMessage("roominvite", function(message:String) {
+			if (message == null)
+				return;
+			var inviteData = Json.parse(message);
+
+			Waiter.put(() -> {
+				Alert.alert(inviteData.name + ' has invited you to their room!', '(Click to Join)', () -> {
+					function onRoomJoin(err:Dynamic) {
+						if (err != null) {
+							Alert.alert(ShitUtil.prettyError(err));
+							return;
+						}
+
+						Waiter.put(() -> {
+							FlxG.switchState(() -> new RoomState());
+						});
+					}
+
+					GameClient.joinRoom(inviteData.roomid, onRoomJoin);
+				});
 			});
 		});
 
@@ -74,27 +107,33 @@ class NetworkClient {
 		}
 
 		room.onLeave += () -> {
-			Waiter.put(() -> {
-				MainTab.addMessage('Disconnected from the chatroom');
-			});
-
-			var recToken = NetworkClient.room.reconnectionToken;
-			NetworkClient.room = null;
-
 			Thread.safeCatch(() -> {
-				trace("Left/Kicked from the Network room!");
+				Waiter.put(() -> {
+					ChatTab.addMessage('Disconnected from the chatroom');
+				});
 
-				connecting = true;
-				client.reconnect(recToken, NetworkSchema, (err, newRoom) -> {
-					trace("Reconnecting to the Network room");
-					joinCallback(err, newRoom, true);
+				var recToken = NetworkClient.room.reconnectionToken;
+				NetworkClient.room = null;
+
+				Thread.safeCatch(() -> {
+					trace("Left/Kicked from the Network room!");
+
+					connecting = true;
+					client.reconnect(recToken, NetworkSchema, (err, newRoom) -> {
+						trace("Reconnecting to the Network room");
+						joinCallback(err, newRoom, true);
+					});
+				}, e -> {
+					NetworkClient.room = null;
+					connecting = false;
+					trace(ShitUtil.prettyError(e));
 				});
 			}, e -> {
-                NetworkClient.room = null;
-				connecting = false;
 				trace(ShitUtil.prettyError(e));
-            });
+			});
 		}
+
+		room.send('loggedMessagesAfter', ChatTab.lastLogDate);
 
         trace("Joined Network Room!");
     }
