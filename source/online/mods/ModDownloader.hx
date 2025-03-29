@@ -21,7 +21,7 @@ class ModDownloader {
 	}
 	public var onStatus:DownloaderStatus->Void;
 
-	static var downloadDir:String = #if mobile Sys.getCwd() #else openfl.filesystem.File.applicationDirectory.nativePath #end + "/downloads/";
+	static var downloadDir:String = "";
 	var downloadPath:String;
 	var id:String;
 	public var url:String;
@@ -31,6 +31,7 @@ class ModDownloader {
 		id = FileUtils.formatFile(url);
 		downloadPath = downloadDir + id + ".dwl";
 		fileName = FileUtils.formatFile(fileName);
+		downloadDir = #if mobile Sys.getCwd() #else openfl.filesystem.File.applicationDirectory.nativePath #end + "/downloads/";
 
 		for (down in downloaders) {
 			if (down.id == id)
