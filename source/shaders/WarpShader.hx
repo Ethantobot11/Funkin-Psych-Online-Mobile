@@ -19,7 +19,7 @@ class WarpEffect extends FlxBasic {
 
 class WarpShader extends FlxShader {
     @:glFragmentSource('
-    // Optimized version of the Flaring shader by mcagabe19
+    // Optimized version of the Flaring shader by HomuHomu833
     // Flaring by nimitz (twitter: @stormoid)
     // https://www.shadertoy.com/view/lsSGzy
     // License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
