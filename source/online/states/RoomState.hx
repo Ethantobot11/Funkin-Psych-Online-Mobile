@@ -114,6 +114,49 @@ class RoomState extends MusicBeatState {
 			});
 		});
 
+		GameClient.room.state.player1.listen("ping", (value, prev) -> {
+			if (value == prev)
+				return;
+			Waiter.put(() -> {
+				updateTexts();
+			});
+		});
+		GameClient.room.state.player2.listen("ping", (value, prev) -> {
+			if (value == prev)
+				return;
+			Waiter.put(() -> {
+				updateTexts();
+			});
+		});
+		GameClient.room.state.player1.listen("status", (value, prev) -> {
+			if (value == prev)
+				return;
+			Waiter.put(() -> {
+				updateTexts();
+			});
+		});
+		GameClient.room.state.player2.listen("status", (value, prev) -> {
+			if (value == prev)
+				return;
+			Waiter.put(() -> {
+				updateTexts();
+			});
+		});
+		GameClient.room.state.player1.listen("name", (value, prev) -> {
+			if (value == prev)
+				return;
+			Waiter.put(() -> {
+				updateTexts();
+			});
+		});
+		GameClient.room.state.player2.listen("name", (value, prev) -> {
+			if (value == prev)
+				return;
+			Waiter.put(() -> {
+				updateTexts();
+			});
+		});
+
 		GameClient.room.state.player1.listen("skinName", (value, prev) -> {
 			if (value == prev)
 				return;
@@ -486,7 +529,7 @@ class RoomState extends MusicBeatState {
 
 		add(groupHUD);
 		
-		updateTexts();
+		updateTexts(true);
 
 		FlxG.mouse.visible = true;
 		FlxG.autoPause = false;
@@ -931,8 +974,6 @@ class RoomState extends MusicBeatState {
 
         super.update(elapsed);
 
-		updateTexts();
-
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
     }
@@ -1018,8 +1059,12 @@ class RoomState extends MusicBeatState {
 		return false;
 	}
 
-    function updateTexts() {
-		if (GameClient.room == null)
+	var _textsInit = false;
+    function updateTexts(?init:Bool = false) {
+		if (init)
+			_textsInit = true;
+
+		if (GameClient.room == null || !_textsInit)
 			return;
 
 		var selfPlayer:Player = getSelfPlayer();
@@ -1256,6 +1301,7 @@ class RoomState extends MusicBeatState {
 	}
 
 	override function beatHit() {
+		updateTexts();
 		danceLogic(p1, true);
 		danceLogic(p2, true);
 		

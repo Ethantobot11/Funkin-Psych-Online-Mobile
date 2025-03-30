@@ -118,7 +118,7 @@ class SideUI extends WSprite {
 			tabButtonsUnderlay.push(tabIconUnderlay);
 			tabUI.addChild(tabIconUnderlay);
 
-			var tabIcon = new Bitmap(Paths.image('sidebar/' + daTab.icon, null, false).bitmap);
+			var tabIcon = new Bitmap(GAssets.image('sidebar/' + daTab.icon));
 			tabIcon.smoothing = false;
 			tabIcon.width = 50;
 			tabIcon.height = 50;
@@ -167,7 +167,7 @@ class SideUI extends WSprite {
 			if (LoadingScreen.loading)
 				return;
 
-			if (e.localY > upBar.height && e.localX > totalTabWidth() && !Alert.isAnyFreezed())
+			if (e.localY > upBar.height * scaleY && e.localX > totalTabWidth() * scaleX && !Alert.isAnyFreezed())
 				active = false;
 
 			if (active) {

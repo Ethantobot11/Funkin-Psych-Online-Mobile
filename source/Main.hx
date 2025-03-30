@@ -66,7 +66,7 @@ class Main extends Sprite
 	public static var stage3D:AwayStage;
 	#end
 
-	public static final PSYCH_ONLINE_VERSION:String = "0.11.1";
+	public static final PSYCH_ONLINE_VERSION:String = "0.11.3";
 	public static final CLIENT_PROTOCOL:Float = 8;
 	public static final GIT_COMMIT:String = online.backend.Macros.getGitCommitHash();
 	public static final LOW_STORAGE:Bool = online.backend.Macros.hasNoCapacity();
@@ -312,6 +312,10 @@ class Main extends Sprite
 		// clear messages before the current state gets destroyed and replaced with another
 		FlxG.signals.preStateSwitch.add(() -> {
 			GameClient.clearOnMessage();
+		});
+
+		FlxG.signals.postGameReset.add(() -> {
+			online.gui.Alert.alert('Warning!', 'The game has been resetted, and there may occur visual bugs with the sidebar!\n\nIt\'s recommended to restart the game instead.');
 		});
 		
 		#if HSCRIPT_ALLOWED
