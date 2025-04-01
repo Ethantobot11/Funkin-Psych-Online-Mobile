@@ -96,7 +96,7 @@ class DownloadAlerts extends Sprite {
 			}
 
 			if (Controls.instance.mobileC && alert.cancelBg.getBounds(FlxG.stage).contains(FlxG.stage.mouseX, FlxG.stage.mouseY) && FlxG.mouse.justPressed)
-				downloader.client.close();
+				downloader.client.cancel();
 
 			prevAlert = alert;
 			i++;
