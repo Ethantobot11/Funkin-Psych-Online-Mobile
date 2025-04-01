@@ -62,7 +62,7 @@ class NetworkClient {
 
 		room.onMessage("log", function(message) {
 			Waiter.put(() -> {
-				ChatTab.addMessage(message);
+				ChatTab.addMessage(message, true);
 			});
 		});
 
@@ -82,7 +82,7 @@ class NetworkClient {
 		});
 
 		room.onMessage("roominvite", function(message:String) {
-			if (message == null)
+			if (message == null || ClientPrefs.data.disableRoomInvites)
 				return;
 			var inviteData = Json.parse(message);
 

@@ -38,7 +38,7 @@ class FunkinNetwork {
 			return false;
 
 		if (code != null)
-			saveCredentials(Json.parse(response.getString()));
+			saveCredentials(Json.parse(response.getString(true)));
 
 		return true;
 	}
@@ -90,7 +90,7 @@ class FunkinNetwork {
 		if (response == null)
 			return loggedIn = false;
 
-		var json = Json.parse(response.getString());
+		var json = Json.parse(response.getString(true));
 		nickname = json.name;
 		points = json.points;
 		avgAccuracy = json.avgAccuracy;
@@ -116,7 +116,7 @@ class FunkinNetwork {
 			return false;
 
 		if (code != null)
-			saveCredentials(Json.parse(response.getString()));
+			saveCredentials(Json.parse(response.getString(true)));
 
 		return true;
 	}
@@ -153,7 +153,7 @@ class FunkinNetwork {
 		if (response == null)
 			return nickname;
 
-		return nickname = response.getString();
+		return nickname = response.getString(true);
 	}
 
 	public static function postFrontMessage(message:String):Bool {
@@ -179,7 +179,7 @@ class FunkinNetwork {
 			return null;
 
 		try {
-			return Json.parse(response.getString());
+			return Json.parse(response.getString(true));
 		}
 		catch (exc) {
 			trace(exc);
@@ -194,7 +194,7 @@ class FunkinNetwork {
 			return null;
 
 		try {
-			return Json.parse(response.getString());
+			return Json.parse(response.getString(true));
 		}
 		catch (exc) {
 			trace(exc);
@@ -218,7 +218,7 @@ class FunkinNetwork {
 			return null;
 
 		try {
-			return Json.parse(response.getString());
+			return Json.parse(response.getString(true));
 		}
 		catch (exc) {
 			trace(exc);
@@ -236,7 +236,7 @@ class FunkinNetwork {
 			return null;
 
 		try {
-			return Json.parse(response.getString());
+			return Json.parse(response.getString(true));
 		}
 		catch (exc) {
 			trace(exc);
@@ -255,7 +255,7 @@ class FunkinNetwork {
 
 		var avatarResponse = FunkinNetwork.requestAPI('/api/avatar/' + StringTools.urlEncode(user), false);
 
-		var bytes = avatarResponse?.getBytes() ?? null;
+		var bytes = avatarResponse?.getBytes(true) ?? null;
 		if (bytes == null || !ShitUtil.isSupportedImage(bytes)) {
 			cacheAvatar.set(user, null);
 			return getDefaultAvatar();
@@ -310,8 +310,8 @@ class FunkinNetwork {
 					Alert.alert('HTTP Error ${ShitUtil.prettyStatus(response.status)}: ' + request.path, response.getString() != null && 
 					response.getString()
 						.ltrim()
-						.startsWith("{") ? Json.parse(response.getString())
-						.error : response.getString());
+						.startsWith("{") ? Json.parse(response.getString(true))
+						.error : response.getString(true));
 				});
 			}
 			return null;
