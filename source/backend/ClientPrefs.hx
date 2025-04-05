@@ -110,6 +110,7 @@ import states.TitleState;
 	public var notifyOnChatMsg:Bool = false;
 	public var disablePMs:Bool = false;
 	public var disableRoomInvites:Bool = false;
+	public var disableSSLVerify:Bool = false;
 
 	public function new()
 	{
@@ -271,6 +272,8 @@ class ClientPrefs {
 			FlxG.drawFramerate = data.framerate;
 			FlxG.updateFramerate = data.framerate;
 		}
+
+		sys.ssl.Socket.DEFAULT_VERIFY_CERT = !ClientPrefs.data.disableSSLVerify;
 
 		if(FlxG.save.data.gameplaySettings != null) {
 			var savedMap:Map<String, Dynamic> = FlxG.save.data.gameplaySettings;
