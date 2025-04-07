@@ -165,7 +165,7 @@ class PauseSubState extends MusicBeatSubstate
 		//cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		cameras = [PlayState.instance.camOther];
 
-		addTouchPad((PlayState.chartingMode || PlayState.replayData != null) ? 'LEFT_FULL' : 'UP_DOWN', 'A_B');
+		addTouchPad(menuItems.contains('Skip Time') ? 'LEFT_FULL' : 'UP_DOWN', 'A_B');
 		addTouchPadCamera();
 	}
 
