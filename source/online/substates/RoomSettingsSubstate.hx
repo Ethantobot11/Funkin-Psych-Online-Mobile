@@ -195,6 +195,7 @@ class RoomSettingsSubstate extends MusicBeatSubstate {
 
 		var mods:Option;
 		items.add(mods = new Option("Mods", "Check your mods here!", () -> {
+			controls.isInSubstate = false;
 			LoadingState.loadAndSwitchState(new ModsMenuState());
 			ModsMenuState.onOnlineRoom = true;
 		}, null, 0, 80 * i, false, true));

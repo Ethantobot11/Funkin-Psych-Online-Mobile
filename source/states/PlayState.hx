@@ -1261,13 +1261,6 @@ class PlayState extends MusicBeatState
 		mobileControls.onButtonUp.add(onButtonRelease);
 		if (replayData == null)
 			mobileControls.instance.visible = true;
-		if (touchPad.buttonT != null)
-		{
-			touchPad.buttonT.IDs = [TAUNT];
-			touchPad.buttonT.onUp.callback = touchPad.buttonT.onOut.callback = () -> touchPad.onButtonUp.dispatch(touchPad.buttonT, [TAUNT]);
-			touchPad.buttonT.onDown.callback = () -> touchPad.onButtonDown.dispatch(touchPad.buttonT, [TAUNT]);
-			touchPad.updateTrackedButtons();
-		}
 		mobileControls.instance.forEachAlive((button) ->
 		{
 			if (touchPad.buttonT != null)
