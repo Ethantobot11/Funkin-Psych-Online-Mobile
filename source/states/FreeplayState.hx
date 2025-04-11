@@ -1111,7 +1111,7 @@ class FreeplayState extends MusicBeatState
 									}
 								});
 							});
-							Mods.currentModDirectory = songs[curSelected].folder;
+							updateMod();
 							trace('Song mod directory: "${Mods.currentModDirectory}"');
 							try {
 								GameClient.send("setFSD", [
@@ -1270,6 +1270,8 @@ class FreeplayState extends MusicBeatState
 	var itemsCameraScrollX:Float = 0;
 
 	function playReplay(replayData:String, ?replayID:String) {
+		updateMod();
+
 		var shit = Json.parse(replayData);
 		PlayState.replayData = cast shit;
 		PlayState.replayData.gameplay_modifiers = ReplayPlayer.objToMap(shit.gameplay_modifiers);
@@ -1518,6 +1520,8 @@ class FreeplayState extends MusicBeatState
 		if (curSelected == -1)
 			return;
 
+		updateMod();
+
 		var diff = Difficulty.getString(curDifficulty);
 		var trackSuffix = diff == "Erect" || diff == "Nightmare" ? "-erect" : "";
 		var track = getSongName() + trackSuffix;
@@ -1527,7 +1531,6 @@ class FreeplayState extends MusicBeatState
 				#if PRELOAD_ALL
 				destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
-				Mods.currentModDirectory = songs[curSelected].folder;
 				var poop:String = Highscore.formatSong(getSongName().toLowerCase(), curDifficulty);
 				PlayState.loadSong(poop, getSongName().toLowerCase());
 				Conductor.bpm = PlayState.SONG.bpm;
@@ -1711,7 +1714,7 @@ class FreeplayState extends MusicBeatState
 				}
 			}
 			
-			Mods.currentModDirectory = songs[curSelected].folder;
+			updateMod();
 			PlayState.storyWeek = songs[curSelected].week;
 			Difficulty.loadFromWeek();
 			
@@ -1918,7 +1921,20 @@ class FreeplayState extends MusicBeatState
 		return songName + getMixSuffix(songName, Difficulty.getString(curDifficulty));
 	}
 
+	function updateMod() {
+		final songName = songs[curSelected].songName.toLowerCase();
+		Mods.currentModDirectory = songs[curSelected].folder;
+		if (overChart.exists(songName)) {
+			if (overChart.get(songName).contains(Difficulty.getString(curDifficulty)))
+				Mods.currentModDirectory = overChartChar[0];
+		}
+		trace(overChart);
+		trace(Mods.currentModDirectory);
+	}
+
 	function enterSong() {
+		updateMod();
+		
 		var songLowercase:String = Paths.formatToSongPath(getSongName());
 		var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
 
@@ -1926,8 +1942,6 @@ class FreeplayState extends MusicBeatState
 			PlayState.loadSong(poop, songLowercase);
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
-			var diff = Difficulty.getString(curDifficulty);
-			//PlayState.isErect = diff == "Erect" || diff == "Nightmare";
 
 			trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
 			if (colorTween != null) {
@@ -1947,9 +1961,10 @@ class FreeplayState extends MusicBeatState
 			missingText.visible = true;
 			missingTextBG.visible = true;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			
+
 			return;
 		}
+
 		LoadingState.loadAndSwitchState(new PlayState());
 		transToPlayState = true;
 		FlxG.autoPause = prevPauseGame;
