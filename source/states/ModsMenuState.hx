@@ -498,7 +498,7 @@ class ModsMenuState extends MusicBeatState
 			fileStr += values[0] + '|' + (values[1] ? '1' : '0');
 		}
 
-		var path:String = 'modsList.txt';
+		var path:String = #if android StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'modsList.txt';
 		File.saveContent(path, fileStr);
 		Mods.pushGlobalMods();
 	}
