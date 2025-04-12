@@ -82,6 +82,17 @@ class StorageUtil
 			CoolUtil.showPopUp('Please create directory to\n' + StorageUtil.getStorageDirectory() + '\nPress OK to close the game', 'Error!');
 			lime.system.System.exit(1);
 		}
+
+		try
+		{
+			if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory()))
+				FileSystem.createDirectory(StorageUtil.getExternalStorageDirectory());
+		}
+		catch (e:Dynamic)
+		{
+			CoolUtil.showPopUp('Please create directory to\n' + StorageUtil.getExternalStorageDirectory() + '\nPress OK to close the game', 'Error!');
+			lime.system.System.exit(1);
+		}
 	}
 	#end
 	#end
