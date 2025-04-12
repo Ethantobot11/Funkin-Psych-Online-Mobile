@@ -336,10 +336,11 @@ class Shader
 			{
 				try
 				{
-					if (!sys.FileSystem.exists('logs'))
-						sys.FileSystem.createDirectory('logs');
+					final folder:String = #if (android && !macro) mobile.backend.StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'logs/';
+					if (!sys.FileSystem.exists(folder))
+						sys.FileSystem.createDirectory(folder);
 
-					sys.io.File.saveContent('logs/' + 'ShaderCompileError.txt', '$message');
+					sys.io.File.saveContent(folder + 'ShaderCompileError.txt', '$message');
 				}
 				catch (e:haxe.Exception)
 					Log.warn('Couldn\'t save error message. (${e.message})', null);
