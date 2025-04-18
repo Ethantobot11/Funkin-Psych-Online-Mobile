@@ -34,12 +34,14 @@ class StorageUtil
 
 	public static function saveContent(fileName:String, fileData:String, ?alert:Bool = true):Void
 	{
+		final folder:String = #if android StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'saves/';
+
 		try
 		{
-			if (!FileSystem.exists('saves'))
-				FileSystem.createDirectory('saves');
+			if (!FileSystem.exists(folder))
+				FileSystem.createDirectory(folder);
 
-			File.saveContent('saves/$fileName', fileData);
+			File.saveContent('$folder$fileName', fileData);
 			if (alert)
 				CoolUtil.showPopUp('$fileName has been saved.', "Success!");
 		}
