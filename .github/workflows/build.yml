@@ -40,6 +40,17 @@ jobs:
         run: |
           haxelib install hmm --quiet
           haxelib run hmm install --quiet
+          
+          - name: Setup Android NDK
+        if: inputs.name == 'Android'
+        uses: nttld/setup-ndk@main
+        id: ndk
+        with:
+          ndk-version: r28
+
+      - name: Install libVLC
+        if: inputs.name == 'Linux'
+        run: sudo apt install libvlc-dev libvlccore-dev
 
       - name: Configure Android
         if: inputs.name == 'Android'
