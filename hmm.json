@@ -10,7 +10,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/MobilePorting/lime.git"
+      "url": "https://github.com/tatsy/lime.git"
     },
     {
       "name": "openfl",
@@ -42,7 +42,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/MobilePorting/hxcpp.git"
+      "url": "https://github.com/Ethantobot11/Funkin-Psych-Online-Mobile/hxcpp.git"
     },
     {
       "name": "tjson",
@@ -66,7 +66,7 @@
       "type": "git",
       "dir": null,
       "ref": "master",
-      "url": "https://github.com/MobilePorting/linc_luajit"
+      "url": "https://github.com/mcagabe19/linc_luajit-rewriten"
     },
     {
       "name": "colyseus",
