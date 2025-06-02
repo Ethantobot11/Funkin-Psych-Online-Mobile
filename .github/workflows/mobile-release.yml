@@ -7,7 +7,7 @@ permissions:
 
 env:
   PROJECT_NAME: PsychOnline
-  REPO_PATH: MobilePorting/Funkin-Psych-Online-Mobile
+  REPO_PATH: Ethantobot11/Funkin-Psych-Online-Mobile
 
 jobs:
   get-commit-hash:
