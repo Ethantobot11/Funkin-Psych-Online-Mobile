@@ -41,8 +41,8 @@
       "name": "hxcpp",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "https://github.com/Ethantobot11/Funkin-Psych-Online-Mobile/hxcpp.git"
+      "ref": "master",
+      "url": "https://github.com/HaxeFoundation/hxcpp.git"
     },
     {
       "name": "tjson",
