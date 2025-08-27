@@ -16,15 +16,19 @@ import openfl.events.Event;
 import openfl.display.StageScaleMode;
 import lime.app.Application;
 import states.TitleState;
+#if mobile
+import mobile.backend.MobileScaleMode;
+#end
 
 #if linux
 import lime.graphics.Image;
 #end
 
-import sys.FileSystem;
+import backend.io.PsychFileSystem as FileSystem;
 
 //crash handler stuff
 import openfl.events.UncaughtErrorEvent;
+import haxe.io.Path;
 import haxe.CallStack;
 import haxe.io.Path;
 import sys.io.File;
@@ -44,7 +48,7 @@ class Main extends Sprite
 
 	public static var fpsVar:FPS;
 
-	public static final PSYCH_ONLINE_VERSION:String = "0.12.3";
+	public static final PSYCH_ONLINE_VERSION:String = "0.12.2";
 	public static final CLIENT_PROTOCOL:Float = 9;
 	public static final NETWORK_PROTOCOL:Float = 8;
 	public static final GIT_COMMIT:String = online.backend.Macros.getGitCommitHash();
@@ -70,18 +74,15 @@ class Main extends Sprite
 
 	public static function main():Void
 	{
+		#if !mobile // would crash the game
 		if (Path.normalize(Sys.getCwd()) != Path.normalize(lime.system.System.applicationDirectory)) {
-			Sys.setCwd(lime.system.System.applicationDirectory);
-
-			if (Path.normalize(Sys.getCwd()) != Path.normalize(lime.system.System.applicationDirectory)) {
-				Lib.application.window.alert("Your path is either not run from the game directory,\nor contains illegal UTF-8 characters!\n\nRun from: "
-					+ Sys.getCwd()
-					+ "\nExpected path: "
-					+ lime.system.System.applicationDirectory,
-					"Invalid Runtime Path!");
-				Sys.exit(1);
-			}
+			Lib.application.window.alert("Your path is either not run from the game directory,\nor contains illegal UTF-8 characters!\n\nRun from: "
+				+ Sys.getCwd()
+				+ "\nExpected path: " + lime.system.System.applicationDirectory, 
+			"Invalid Runtime Path!");
+			Sys.exit(1);
 		}
+		#end
 		
 		Lib.current.addChild(view3D = new online.away.View3DHandler());
 		Lib.current.addChild(new Main());
@@ -93,7 +94,13 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-
+		#if mobile
+		#if android
+		StorageUtil.requestPermissions();
+		#end
+		Sys.setCwd(StorageUtil.getStorageDirectory());
+		#end
+			
 		if (stage != null)
 		{
 			init();
@@ -165,13 +172,22 @@ class Main extends Sprite
 		}
 		#end
 
-		#if linux
-		Lib.current.stage.window.setIcon(Image.fromFile("icon.png"));
+		#if (linux || mac)
+		final icon:Image = Image.fromFile("icon.png");
+		Lib.current.stage.window.setIcon(icon);
 		#end
 
 		#if html5
 		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;
+		#end
+
+		FlxG.fixedTimestep = false;
+		FlxG.game.focusLostFramerate = #if mobile 30 #else 60 #end;
+		#if web
+		FlxG.keys.preventDefaultKeys.push(TAB);
+		#else
+		FlxG.keys.preventDefaultKeys = [TAB];
 		#end
 		
 		//haxe errors caught by openfl
@@ -181,10 +197,38 @@ class Main extends Sprite
 		//internal c++ exceptions
 		untyped __global__.__hxcpp_set_critical_error_handler(onCrash);
 
+		#if (linux || mac)
+		final icon:Image = Image.fromFile("icon.png");
+		Lib.current.stage.window.setIcon(icon);
+		#end
+
+		#if html5
+		FlxG.autoPause = false;
+		FlxG.mouse.visible = false;
+		#end
+
+		FlxG.fixedTimestep = false;
+		FlxG.game.focusLostFramerate = #if mobile 30 #else 60 #end;
+		#if web
+		FlxG.keys.preventDefaultKeys.push(TAB);
+		#else
+		FlxG.keys.preventDefaultKeys = [TAB];
+		#end
+
+		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
+
 		#if DISCORD_ALLOWED
 		DiscordClient.initialize();
 		#end
+			
+		#if mobile
+		lime.system.System.allowScreenTimeout = ClientPrefs.data.screensaver; 		
+		FlxG.scaleMode = new MobileScaleMode();
+		#end
 
+		Application.current.window.vsync = ClientPrefs.data.vsync;
+		
+			
 		// shader coords fix
 		FlxG.signals.gameResized.add(function (w, h) {
 		     if (FlxG.cameras != null) {
@@ -230,7 +274,8 @@ class Main extends Sprite
 			} catch (exc) {}
 			online.network.Auth.saveClose();
 		});
-
+			
+                #if !mobile
 		Lib.application.window.onDropFile.add(path -> {
 			if (FileSystem.isDirectory(path))
 				return;
@@ -246,6 +291,7 @@ class Main extends Sprite
 				});
 			}
 		});
+		#end
 
 		// clear messages before the current state gets destroyed and replaced with another
 		FlxG.signals.preStateSwitch.add(() -> {
@@ -310,13 +356,12 @@ class Main extends Sprite
 		if (exc is Exception)
 			daError += "\n" + cast(exc, Exception).stack.toString() + "\n";
 		alertMsg += daError;
-		alertMsg += "\n\nCommit: " + GIT_COMMIT + "\n";
 
 		Sys.println(alertMsg);
 
 		if (!FileSystem.exists("./crash/"))
 			FileSystem.createDirectory("./crash/");
-		File.saveContent(path, alertMsg);
+		File.saveContent(path, alertMsg + "\n\n === \n\nCommit: " + GIT_COMMIT + "\n");
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 		
 		var daLine:Int = 0;
