@@ -9,8 +9,8 @@ import Type.ValueType;
 import substates.GameOverSubstate;
 
 #if sys
-import sys.FileSystem;
-import sys.io.File;
+import backend.io.PsychFileSystem as FileSystem;
+import backend.io.PsychFile as File;
 #end
 
 typedef LuaTweenOptions = {
@@ -82,7 +82,6 @@ class LuaUtils
 		Reflect.setProperty(instance, variable, value);
 		return value;
 	}
-	//todo: laggy
 	public static function getVarInArray(instance:Dynamic, variable:String, allowMaps:Bool = true):Any
 	{
 		var splitProps:Array<String> = variable.split('[');
