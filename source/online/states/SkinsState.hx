@@ -37,6 +37,9 @@ class SkinsState extends MusicBeatState {
 
 	static var flipped:Bool = false;
 
+	final accept:String = (Controls.instance.mobileC) ? "A" : "ACCEPT";
+	static var backClass:Class<Dynamic>;
+
 	static var backClass:Class<Dynamic>;
 
 	var reloadedState:Bool = false;
@@ -348,6 +351,8 @@ class SkinsState extends MusicBeatState {
 		charInfo.visible = false;
 		add(charInfo);
 
+	        final gofuckurself:String = (controls.mobileC) ? "Use Arrow Buttons while pressing X to move!" : "Use Note keybinds while pressing SHIFT to move!";
+
 		var swagText = new FlxText(0, charSelect.y + charSelect.height + 5, FlxG.width);
 		swagText.text = 'Use Note keybinds while pressing SHIFT to move!';
 		swagText.setFormat("VCR OSD Mono", 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -355,14 +360,19 @@ class SkinsState extends MusicBeatState {
 		swagText.cameras = [hud];
 		add(swagText);
 
-		var tip1 = new FlxText(20, 0, FlxG.width, 'TAB - Flip skin\n8 - Edit skin\nCTRL - Open the Character List');
+		final tab:String = (controls.mobileC) ? "C" : "TAB";
+		final eight:String = (controls.mobileC) ? "D" : "8";
+		final ctrl:String = (controls.mobileC) ? "V" : "CTRL";
+		var tip1 = new FlxText(20, 0, FlxG.width, '$tab - Flip skin\n$eight - Edit skin\n$ctrl - Open the Character List');
 		tip1.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tip1.y = charSelect.y - 10;
 		tip1.alpha = 0.5;
 		tip1.cameras = [hud];
 		add(tip1);
 
-		var tip2 = new FlxText(-20, 0, FlxG.width, 'F1 for Help!\nF2 to Browse Verified Skins');
+		var f1:String = (controls.mobileC) ? "Y" : "F1";
+		var f2:String = (controls.mobileC) ? "Z" : "F2";
+		var tip2 = new FlxText(-20, 0, FlxG.width, '$f1 for Help!\n$f2 to Browse Verified Skins');
 		tip2.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tip2.y = tip1.y;
 		tip2.alpha = tip1.alpha;
