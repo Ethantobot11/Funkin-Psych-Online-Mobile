@@ -1,10 +1,10 @@
 package online.mods;
 
 import haxe.Exception;
-import sys.FileSystem;
+import backend.io.PsychFileSystem as FileSystem;
 import online.mods.GameBanana;
 import online.http.HTTPClient;
-import sys.io.File;
+import backend.io.PsychFile as File;
 
 class ModDownloader {
 	public static var downloaders:Array<ModDownloader> = [];
