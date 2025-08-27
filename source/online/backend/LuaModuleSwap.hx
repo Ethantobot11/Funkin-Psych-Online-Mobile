@@ -2,8 +2,8 @@ package online.backend;
 
 import sys.io.FileOutput;
 import sys.io.FileInput;
-import sys.FileSystem;
-import sys.io.File;
+import backend.io.PsychFileSystem as FileSystem;
+import backend.io.PsychFile as File;
 import haxe.io.Path;
 
 class LuaModuleSwap {
