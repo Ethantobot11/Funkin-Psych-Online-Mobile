@@ -4,8 +4,8 @@ on: workflow_dispatch
 permissions: write-all   # ✅ caller must allow write perms too
 
 env:
-  PROJECT_NAME: PibbyEngine
-  REPO_PATH: Ethantobot11/PibbyEngine-0.7.3
+  PROJECT_NAME: PsychOnline
+  REPO_PATH: Ethantobot11/PsychOnline
 
 jobs:
   get-commit-hash:
@@ -46,7 +46,7 @@ jobs:
             os: macos-13
             buildArgs: "ios -final -nosign -D officialBuild"
             artifactName: iOSBuild
-            artifactPath: "export/release/ios/build/Release-iphoneos/PibbyEngine.ipa"
+            artifactPath: "export/release/ios/build/Release-iphoneos/PsychOnline.ipa"
     uses: ./.github/workflows/build.yml
     with:
         name: ${{ matrix.name }}
@@ -81,7 +81,7 @@ jobs:
       - name: Publish The Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "HOTIFX 0.71 (V${{ needs.get-gitversion-hash }})"
+          name: "Release (V${{ needs.get-gitversion-hash }})"
           tag_name: "release-${{ needs.get-commit-hash.outputs.commit_hash }}"
           make_latest: true
           files: |
