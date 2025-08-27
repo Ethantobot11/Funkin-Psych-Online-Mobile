@@ -5,7 +5,7 @@ permissions: write-all   # ✅ caller must allow write perms too
 
 env:
   PROJECT_NAME: PsychOnline
-  REPO_PATH: Ethantobot11/PsychOnline
+  REPO_PATH: Ethantobot11/Funkin-Psych-Online-Mobile
 
 jobs:
   get-commit-hash:
