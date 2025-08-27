@@ -21,8 +21,8 @@ import lime.utils.Assets;
 import openfl.media.Sound;
 
 #if sys
-import sys.io.File;
-import sys.FileSystem;
+import backend.io.PsychFile as File;
+import backend.io.PsychFileSystem as FileSystem;
 #end
 import tjson.TJSON as Json;
 
@@ -47,8 +47,9 @@ class Paths
 		'assets/music/freakyMenu.$SOUND_EXT',
 		'assets/shared/music/breakfast.$SOUND_EXT',
 		'assets/shared/music/tea-time.$SOUND_EXT',
-		'assets/images/bf1.png',
-		'assets/images/bf2.png',
+		'assets/images/bf1.astc',
+		'assets/images/bf2.astc',
+		'assets/mobile/touchpad/bg.astc'
 	];
 	/// haya I love you for the base cache dump I took to the max
 	public static function clearUnusedMemory() {
@@ -118,6 +119,9 @@ class Paths
 			if(FileSystem.exists(modded)) return modded;
 		}
 		#end
+		
+		if (library == "mobile")
+			return getPreloadPath('mobile/$file');
 
 		if (library != null)
 			return getLibraryPath(file, library);
@@ -456,11 +460,12 @@ class Paths
 		}
 		localTrackedAssets.push(gottenPath);
 		return currentTrackedSounds.get(gottenPath);
-	}
+}
+
 
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
-		return 'mods/' + key;
+		return #if mobile Sys.getCwd() + #end 'mods/' + key;
 	}
 
 	inline static public function modsFont(key:String) {
@@ -518,7 +523,7 @@ class Paths
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
 		}
-		return 'mods/' + key;
+                return #if mobile Sys.getCwd() + #end 'mods/' + key;
 	}
 	#end
 
