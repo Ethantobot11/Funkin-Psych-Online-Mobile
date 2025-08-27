@@ -734,8 +734,6 @@ class CharacterEditorState extends MusicBeatState {
 			
 			char.animationsArray.push(newAnim);
 
-			char.playAnim(newAnim.anim);
-
 			/*if (lastAnim == animationInputText.text) {
 				var leAnim:FlxAnimation = char.animation.getByName(lastAnim);
 				if (leAnim != null && leAnim.frames.length > 0) {
