@@ -2,7 +2,7 @@ package substates;
 
 import online.util.ShitUtil;
 import online.substates.PostTextSubstate;
-import sys.io.File;
+import backend.io.PsychFile as File;
 import online.network.Leaderboard;
 import haxe.Json;
 import backend.WeekData;
@@ -182,6 +182,9 @@ class PauseSubState extends MusicBeatSubstate
 		regenMenu();
 		//cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		cameras = [PlayState.instance.camOther];
+
+		addTouchPad(menuItems.contains('Skip Time') ? 'LEFT_FULL' : 'UP_DOWN', 'A_B');
+		addTouchPadCamera();
 	}
 
 	var holdTime:Float = 0;
