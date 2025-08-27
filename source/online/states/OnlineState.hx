@@ -61,10 +61,12 @@ class OnlineState extends MusicBeatState {
 	var selectLine:FlxSprite;
 	var descBox:FlxSprite;
 	
+	#if !mobile
 	var discord:FlxSprite;
 	var github:FlxSprite;
 	var bsky:FlxSprite;
 	var twitter:FlxSprite;
+	#end
 
     function onRoomJoin(err:Dynamic) {
 		if (err != null) {
@@ -168,6 +170,7 @@ class OnlineState extends MusicBeatState {
 		items.screenCenter(Y);
         add(items);
 
+	        #if !mobile
 		discord = new FlxSprite();
 		discord.antialiasing = ClientPrefs.data.antialiasing;
 		discord.frames = Paths.getSparrowAtlas('online_discord');
@@ -224,7 +227,7 @@ class OnlineState extends MusicBeatState {
 			if (!Main.UNOFFICIAL_BUILD)
 				add(twitter);
 		}
-		
+		#end
 
 		itemDesc = new FlxText(0, FlxG.height - 170);
 		itemDesc.setFormat("VCR OSD Mono", 25, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -398,7 +401,8 @@ class OnlineState extends MusicBeatState {
 				disableInput = true;
 				GameClient.joinRoom(Clipboard.text, onRoomJoin);
 			}
-
+						
+                        #if !mobile
 			if (FlxG.mouse.justPressed || FlxG.mouse.justMoved) {
 				if (FlxG.mouse.overlaps(discord)) {
 					discord.alpha = 1;
@@ -471,6 +475,7 @@ class OnlineState extends MusicBeatState {
 					}
 				}
 			}
+		        #end
 		}
     }
 	
