@@ -17,8 +17,8 @@ import flixel.addons.display.FlxRuntimeShader;
 #end
 
 #if sys
-import sys.FileSystem;
-import sys.io.File;
+import backend.io.PsychFileSystem as FileSystem;
+import backend.io.PsychFile as File;
 #end
 
 import cutscenes.DialogueBoxPsych;
@@ -42,6 +42,8 @@ import psychlua.HScript;
 #end
 import psychlua.DebugLuaText;
 import psychlua.ModchartSprite;
+
+import mobile.psychlua.Functions;
 
 class FunkinLua {
 	public static var Function_Stop:Dynamic = "##PSYCHLUA_FUNCTIONSTOP";
@@ -1492,6 +1494,8 @@ class FunkinLua {
 		ShaderFunctions.implement(this);
 		DeprecatedFunctions.implement(this);
 		online.backend.OnlineScriptFunctions.implement(this);
+		MobileFunctions.implement(this);
+		#if android AndroidFunctions.implement(this); #end
 		
 		try{
 			var result:Dynamic = LuaL.dofile(lua, scriptName);
@@ -1543,7 +1547,6 @@ class FunkinLua {
 			}
 
 			for (arg in args) Convert.toLua(lua, arg);
-			//todo: laggy
 			var status:Int = Lua.pcall(lua, args.length, 1, 0);
 
 			// Checks if it's not successful, then show a error.
