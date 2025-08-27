@@ -56,7 +56,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://codeberg.org/Snirozu/SScript-7.7.0"
+      "url": "https://github.com/HomuHomu833/SScript"
     },
     {
       "name": "hxdiscord_rpc",
@@ -134,7 +134,7 @@
       "type": "git",
       "dir": null,
       "ref": "162f924bdde427fc84af5b51961d2faef51f6955",
-      "url": "https://github.com/Snirozu/grig.audio"
+      "url": "https://codeberg.org/Snirozu/away3d"
     },
     {
       "name": "tink_core",
