@@ -21,8 +21,8 @@ import states.StoryMenuState;
 import states.MainMenuState;
 
 #if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
+import backend.io.PsychFileSystem as FileSystem;
+import backend.io.PsychFile as File;
 #end
 
 typedef TitleData =
@@ -194,6 +194,7 @@ class TitleState extends MusicBeatState
 			}
 			persistentUpdate = true;
 			persistentDraw = true;
+			MobileData.init();
 		}
 
 		if (FlxG.save.data.weekCompleted != null)
