@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Psych Online" file="PsychEngine" main="Main" version="0.6.0" packageName="com.shadowmario.psychengine" package="com.shadowmario.psychengine" company="ShadowMario" />
+	<app title="Psych Online" file="PsychOnline" main="Main" version="0.6.0" packageName="com.shadowmario.psychengine" package="com.shadowmario.psychengine" company="ShadowMario" />
 	<!-- leaving mobile stuff here, if someone manages to compile this project to android then i'll be willing to merge that  -->
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
