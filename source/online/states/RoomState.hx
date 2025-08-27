@@ -564,9 +564,8 @@ class RoomState extends MusicBeatState #if interpret implements interpret.Interp
 		}
 		#end
 		
-		if (GameClient.getPlayerSelf() == null) {
+		if (!GameClient.isConnected())
 			return;
-		}
 
 		if (lastFocused != (chatBox.focused && chatBox.typeText.text.length > 0)) {
 			if (!lastFocused) // is now typing
@@ -866,7 +865,7 @@ class RoomState extends MusicBeatState #if interpret implements interpret.Interp
 					Alert.alert("Mod couldn't be found!", "Host didn't specify the URL of this mod");
 				}
 				else if (Mods.getModDirectories().contains(GameClient.room.state.modDir)) {
-					Alert.alert("Mod couldn't be found!", "Expected mod data to exist in this path: " + (GameClient.room.state.modDir ?? "mods/"));
+					Alert.alert("Mod couldn't be found!", "Expected mod data to exist in this path: " + (GameClient.room.state.modDir ?? #if mobile Sys.getCwd() + #end "mods/"));
 				}
 				var sond = FlxG.sound.play(Paths.sound('badnoise' + FlxG.random.int(1, 3)));
 				sond.pitch = 1.1;
@@ -928,6 +927,12 @@ class RoomState extends MusicBeatState #if interpret implements interpret.Interp
 		songNameBg.x = songName.x;
 
 		updateCharacters();
+
+	        final settingsBind:String = !controls.mobileC ? "\n\n(Keybind: SHIFT)" : "";
+		final chatBind:String = !controls.mobileC ? "\n\n(Keybind: TAB)" : "";
+		final roomBind:String = !controls.mobileC ? "\n\nACCEPT - Reveals the code and\ncopies it to your clipboard.\n\nCTRL + C - Copies the code without\nrevealing it on the screen." : "\n\nTOUCH - Reveals the code and\ncopies it to your clipboard.";
+		final modBind:String = !controls.mobileC ? "\n\nRIGHT CLICK - Open Mod Downloader" : "\n\nTOUCH - Open Mod Downloader";
+		final lobbyBind:String = !controls.mobileC ? "\nPress UI keybinds\nor use your mouse\nto select an option!" : "\nTouch UI keybinds\nto select an option!";
 
 		switch (curSelected) {
 			case 0:
