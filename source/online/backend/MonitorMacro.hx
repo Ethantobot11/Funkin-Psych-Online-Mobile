@@ -23,38 +23,22 @@ class MonitorMacro {
 			if (field.access.contains(AMacro) || field.access.contains(AExtern) || field.access.contains(AInline) || field.kind.getName() != "FFun")
 				continue;
 
-			if (!isMetaAllowed(field.meta)) {
-				continue;
-			}
-
 			var func:Function = field.kind.getParameters()[0];
 			if (func.expr == null)
 				continue;
 
-			switch (func.expr.expr) {
-				case EBlock(_):
-				default:
-					continue;
-			}
-
-			var hasInjectedToReturn = injectBefoReturn(func.expr,
-				macro online.backend.MonitorMacro.setTime($v{Context.getLocalClass().get().name + "." + field.name},
-					haxe.Timer.stamp() - ___callTime));
-			
-			// log(Context.getLocalClass().get().pack.join('.') + Context.getLocalClass().get().name + "." + field.name);
-			// log(func.expr?.expr);
-			
+			var hasInjectedToReturn = injectBefoReturn(func.expr, macro online.backend.MonitorMacro.setTime(___times, $v{Context.getLocalClass().get().name + "." + field.name}, haxe.Timer.stamp() - ___callTime));
 			if (hasInjectedToReturn) {
 				func.expr = macro {
-					final ___callTime = haxe.Timer.stamp();
+					var ___callTime = haxe.Timer.stamp();
 					${func.expr};
 				};
 			}
 			else {
 				func.expr = macro {
-					final ___callTime = haxe.Timer.stamp();
+					var ___callTime = haxe.Timer.stamp();
 					${func.expr};
-					online.backend.MonitorMacro.setTime($v{Context.getLocalClass().get().name + "." + field.name}, haxe.Timer.stamp() - ___callTime);
+					online.backend.MonitorMacro.setTime(___times, $v{Context.getLocalClass().get().name + "." + field.name}, haxe.Timer.stamp() - ___callTime);
 				};
 			}
 
@@ -63,83 +47,55 @@ class MonitorMacro {
 			newFields.push(field);
 		}
 
+		fields.push({
+			name: "___times",
+			access: [Access.AStatic],
+			kind: FieldType.FVar(macro :Map<String, Float>, macro $v{new Map<String, Float>()}),
+			pos: pos,
+		});
+
 		fields = fields.concat(newFields);
 		#end
 
 		return fields;
 	}
 
-	static function isMetaAllowed(meta:Metadata) {
-		for (meta in meta) {
-			if (meta.name == ':op')
-				return false;
-		}
-		return true;
-	}
-
-	static function injectBefoReturn(expr:haxe.macro.Expr, inj:haxe.macro.Expr, ?injected:Bool = false, ?out:Bool = false) {
+	static function injectBefoReturn(expr:haxe.macro.Expr, inj:haxe.macro.Expr, ?injected:Bool = false) {
 		switch (expr?.expr) {
-			case EWhile(_, expr, _), EFor(_, expr), EUntyped(expr), EParenthesis(expr):
-				if (injectBefoReturn(expr, inj, injected))
-					injected = true;
-
-			case EIf(_, expr, eelse):
-				if (injectBefoReturn(expr, inj, injected))
-					injected = true;
-
+			case EWhile(_, expr, _):
+				injectBefoReturn(expr, inj, injected);
+			case EIf(_, expr, eelse): // else will be ignored
+				injectBefoReturn(expr, inj, injected);
 				if (eelse != null)
-					if (injectBefoReturn(eelse, inj, injected))
-						injected = true;
-
+					injectBefoReturn(eelse, inj, injected);
+			case EFor(_, expr):
+				injectBefoReturn(expr, inj, injected);
 			case ETry(expr, catches):
 				for (cat in catches) {
-					if (injectBefoReturn(cat.expr, inj, injected))
-						injected = true;
+					injectBefoReturn(cat.expr, inj, injected);
 				}
-
-				if (injectBefoReturn(expr, inj, injected))
-					injected = true;
-
+				injectBefoReturn(expr, inj, injected);
+			case EUntyped(expr):
+				injectBefoReturn(expr, inj, injected);
 			case ETernary(_, expr, eelse):
-				if (injectBefoReturn(expr, inj, injected))
-					injected = true;
-
+				injectBefoReturn(expr, inj, injected);
 				if (eelse != null)
-					if (injectBefoReturn(eelse, inj, injected))
-						injected = true;
-
+					injectBefoReturn(eelse, inj, injected);
 			case ESwitch(expr, cases, _):
 				for (cas in cases) {
 					if (cas.expr != null)
-						if (injectBefoReturn(cas.expr, inj, injected))
-							injected = true;
+						injectBefoReturn(cas.expr, inj, injected);
 				}
-
-				if (injectBefoReturn(expr, inj, injected))
-					injected = true;
-
+				injectBefoReturn(expr, inj, injected);
+			case EParenthesis(expr):
+				injectBefoReturn(expr, inj, injected);
 			case EBlock(exprs):
-				for (e in exprs.copy()) {
-					// if (inj != e) {
-					// 	if (injectBefoReturn(e, inj, injected))
-					// 		injected = true;
-					// }
-
+				for (i => e in exprs.copy()) {
 					if (inj != e && isReturn(e)) {
-						exprs.insert(exprs.indexOf(e), inj);
+						exprs.insert(i, inj);
 						injected = true;
 					}
-					else {
-						if (injectBefoReturn(e, inj, injected))
-							injected = true;
-					}
 				}
-
-			// case EReturn(_):
-			// how to inject before this expr?
-			// 	exprs.insert(exprs.indexOf(expr.expr), inj);
-			// 	injected = true;
-
 			default:
 		}
 		return injected;
@@ -154,22 +110,12 @@ class MonitorMacro {
 		}
 	}
 
-	public static function setTime(k:String, v:Float) {
-		if (v < 0.05)
+	public static function setTime(map:Map<String, Float>, k:String, v:Float) {
+		if (v < 0.01 || map.get(k) > v)
 			return;
+		map.set(k, v);
 		#if !macro
-		log('[!] Lag: $k -> ${flixel.math.FlxMath.roundDecimal(v, 2)}s');
+		Sys.println('[!] Lag: $k -> ${flixel.math.FlxMath.roundDecimal(v, 2)}s');
 		#end
-	}
-
-	static var logOutput:sys.io.FileOutput;
-	public static inline function log(o:Dynamic) {
-		Sys.println(o);
-		if (logOutput == null) {
-			// sys.io.File.saveContent('monitor_output.txt', '');
-			logOutput = sys.io.File.append('monitor_output.txt', false);
-		}
-		logOutput.writeString(Std.string(o) + '\n');
-		logOutput.flush();
 	}
 }
