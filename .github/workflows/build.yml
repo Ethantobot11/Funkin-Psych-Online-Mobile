@@ -23,7 +23,7 @@ permissions: write-all
 
 env:
   HAXE_VERSION: 4.3.7
-  PROJECT_NAME: PibbyEngine
+  PROJECT_NAME: PsychOnline
 
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
           key: cache-build-ios
           path: |
             .haxelib/
-            export/release/ios/PibbyEngine/haxe/
+            export/release/ios/PsychOnline/haxe/
           restore-keys: |
             cache-build-ios
 
@@ -142,12 +142,12 @@ jobs:
         if: inputs.name == 'iOS'
         run: |
           brew install ldid
-          cd export/release/ios/build/Release-iphoneos/PibbyEngine.app
-          ldid -S../../../PibbyEngine/PibbyEngine.entitlements PibbyEngine
+          cd export/release/ios/build/Release-iphoneos/PsychOnline.app
+          ldid -S../../../PsychOnline/PsychOnline.entitlements PsychOnline
           cd ..
           mkdir Payload
-          mv PibbyEngine.app Payload
-          zip -r PibbyEngine.ipa Payload
+          mv PsychOnline.app Payload
+          zip -r PsychOnline.ipa Payload
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main
@@ -163,6 +163,6 @@ jobs:
           key: cache-build-ios
           path: |
             .haxelib/
-            export/release/ios/PibbyEngine/haxe/
+            export/release/ios/PsychOnline/haxe/
           restore-keys: |
             cache-build-ios
