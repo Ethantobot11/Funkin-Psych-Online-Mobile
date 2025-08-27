@@ -17,8 +17,8 @@ import openfl.display.BitmapData;
 import haxe.zip.Reader;
 import haxe.zip.Entry;
 import online.states.SetupModsState;
-import sys.io.File;
-import sys.FileSystem;
+import backend.io.PsychFileSystem as FileSystem;
+import backend.io.PsychFile as File;
 import online.http.URLScraper;
 
 class OnlineMods {
@@ -315,13 +315,11 @@ class OnlineMods {
 				runsGlobally: FileSystem.exists(Paths.mods(modName + '/songs/')) ? false : isLegacy
 			}));
 		}
-		else { // if (/*(gbMod != null ? gbMod.rootCategory == "Executables" : */isExecutable) { // sometimes dum dum people put their non-exe mods to that section
-			trace("Regular mod found! Converting...");
-			if (isExecutable) {
-				for (file in FileSystem.readDirectory(Paths.mods(modName))) {
-					if (file != "assets" && file != "mods")
-						FileUtils.removeFiles(Paths.mods(modName + "/" + file));
-				}
+		else if (/*(gbMod != null ? gbMod.rootCategory == "Executables" : */isExecutable) { // sometimes dum dum people put their non-exe mods to that section
+			trace("Executable mod found! Converting...");
+			for (file in FileSystem.readDirectory(Paths.mods(modName))) {
+				if (file != "assets" && file != "mods")
+					FileUtils.removeFiles(Paths.mods(modName + "/" + file));
 			}
 
 			if (FileSystem.exists(Paths.mods(modName + '/mods/pack.json')))
