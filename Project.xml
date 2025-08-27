@@ -2,12 +2,8 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Psych Online" file="PsychEngine" main="Main" version="0.6.0" />
-	<app if="desktop" packageName="com.shadowmario.psychengine"
-		package="com.shadowmario.psychengine" company="ShadowMario" />
+	<app title="Friday Night Funkin': Psych Online" file="PsychEngine" main="Main" version="0.6.0" packageName="com.shadowmario.psychengine" package="com.shadowmario.psychengine" company="ShadowMario" />
 	<!-- leaving mobile stuff here, if someone manages to compile this project to android then i'll be willing to merge that  -->
-	<app if="mobile" title='Psych Online' packageName="snirozu.psychonline"
-		package="snirozu.psychonline" company="Snirozu" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -188,7 +184,18 @@
 	<haxedef name="HXCPP_CATCH_SEGV" />
 	<haxedef name="HXCPP_DEBUG_LINK" />
 
-	<!-- <haxedef name="message.reporting" value="pretty" /> -->
+	<!--Avoid memory leaks with for loops in HScript-->
+	<!-- Do whatever you want I'm tired uninstall and install everytime -->
+	<certificate path="key.keystore" password="psychonline" alias="psychonlineport" alias-password="psychonline" if="android" unless="debug" />
+			
+	<!-- Category Type for Apple Systems -->
+	<config:ios category_type="public.app-category.music-games" />
+	<config:mac category_type="public.app-category.music-games" />
+
+	<!-- Allow Access to Engine Files for Mobile -->
+	<haxedef name="SHARE_MOBILE_FILES" if="mobile" />
+
+	<haxedef name="message.reporting" value="pretty" />
 	<haxedef name='no-deprecation-warnings' />
 
 	<!--Avoid memory leaks with for loops in HScript-->
