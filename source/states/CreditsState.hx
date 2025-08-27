@@ -1,8 +1,8 @@
 package states;
 
-#if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
+#if sys
+import backend.io.PsychFile as File;
+import backend.io.PsychFileSystem as FileSystem;
 #end
 
 import objects.AttachedSprite;
