@@ -298,11 +298,11 @@ class OnlineOptionsState extends MusicBeatState {
 			else if (controls.UI_DOWN_P || FlxG.mouse.wheel == -1)
 				changeSelection(1);
 
-			if (FlxG.mouse.deltaScreenX != 0 || FlxG.mouse.deltaScreenY != 0 || FlxG.mouse.justPressed) {
+			if (!controls.mobileC && (FlxG.mouse.deltaScreenX != 0 || FlxG.mouse.deltaScreenY != 0 || FlxG.mouse.justPressed)) {
                 curSelected = -1;
                 var i = 0;
                  for (item in items) {
-                    if (FlxG.mouse.overlaps(item, camera)) {
+                    if (!controls.mobileC && FlxG.mouse.overlaps(item, camera)) {
                         curSelected = i;
                         break;
                     }
@@ -315,7 +315,7 @@ class OnlineOptionsState extends MusicBeatState {
 		super.update(elapsed);
 
 		if (!inputWait) {
-			if ((controls.ACCEPT || FlxG.mouse.justPressed) && curOption != null) {
+			if ((controls.ACCEPT || (!controls.mobileC && FlxG.mouse.justPressed)) && curOption != null) {
 				if (curOption.isInput) {
 					if (FlxG.mouse.justPressed)
 						for (i => input in curOption.inputs)
