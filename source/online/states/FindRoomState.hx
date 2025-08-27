@@ -71,6 +71,8 @@ class FindRoomState extends MusicBeatState {
 		emptyMessage.screenCenter();
 		emptyMessage.visible = false;
 		add(emptyMessage);
+
+		addTouchPad('UP_DOWN', 'B_C');
     }
 
     override function update(elapsed) {
