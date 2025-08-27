@@ -8,6 +8,8 @@ import lime.system.Clipboard;
 
 class ChatBox extends FlxTypedSpriteGroup<FlxSprite> {
 	public static var instance:ChatBox;
+	final accept:String = Controls.instance.mobileC ? "RETURN" : "ACCEPT";
+	final tab:String = Controls.instance.mobileC ? "C" : "TAB";
 	var prevMouseVisibility:Bool = false;
     public var focused(default, set):Bool = false;
 	function set_focused(v) {
