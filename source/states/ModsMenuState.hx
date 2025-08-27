@@ -17,8 +17,8 @@ import lime.utils.Assets;
 import tjson.TJSON as Json;
 
 #if sys
-import sys.io.File;
-import sys.FileSystem;
+import backend.io.PsychFile as File;
+import backend.io.PsychFileSystem as FileSystem;
 #end
 
 import objects.AttachedSprite;
@@ -549,7 +549,7 @@ class ModsMenuState extends MusicBeatState
 			fileStr += values[0] + '|' + (values[1] ? '1' : '0');
 		}
 
-		var path:String = 'modsList.txt';
+		var path:String = #if mobile Sys.getCwd() + #end 'modsList.txt';
 		File.saveContent(path, fileStr);
 		Mods.pushGlobalMods();
 	}
