@@ -15,14 +15,12 @@
     {
       "name": "openfl",
       "type": "haxelib",
-      "version": "9.4.1"
+      "version": "9.3.3"
     },
     {
       "name": "flixel",
-      "type": "git",
-      "dir": null,
-      "ref": "main",
-      "url": "https://github.com/kittycathy233/flixel"
+      "type": "haxelib",
+      "version": "5.8.0"
     },
     {
       "name": "flixel-addons",
