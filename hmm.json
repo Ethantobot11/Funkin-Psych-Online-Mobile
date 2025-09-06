@@ -10,7 +10,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/kittycathy233/lime"
+      "url": "https://github.com/Ethantobot11/lime2"
     },
     {
       "name": "openfl",
@@ -143,10 +143,8 @@
     },
     {
       "name": "hxvlc",
-      "type": "git",
-      "dir": null,
-      "ref": "main",
-      "url": "https://github.com/th2l-devs/hxvlc"
+      "type": "haxelib",
+      "version": "2.0.1"
     },
     {
       "name": "yagp",
