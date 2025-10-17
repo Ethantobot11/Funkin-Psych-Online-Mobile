@@ -10,7 +10,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/Ethantobot11/lime2"
+      "url": "https://github.com/AlafandyPorting/lime-0.7.3"
     },
     {
       "name": "openfl",
@@ -19,8 +19,10 @@
     },
     {
       "name": "flixel",
-      "type": "haxelib",
-      "version": "5.8.0"
+      "type": "git",
+      "dir": null,
+      "ref": "master",
+      "url": "https://github.com/AliAlafandy/flixel-alafandy"
     },
     {
       "name": "flixel-addons",
@@ -42,7 +44,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/kittycathy233/hxcpp"
+      "url": "https://github.com/AlafandyPorting/hxcpp"
     },
     {
       "name": "tjson",
@@ -54,7 +56,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/HomuHomu833/SScript"
+      "url": "https://github.com/AlafandyPorting/SScript"
     },
     {
       "name": "hxdiscord_rpc",
@@ -65,8 +67,8 @@
       "name": "linc_luajit",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "https://github.com/kittycathy233/linc_luajit"
+      "ref": "master",
+      "url": "https://github.com/AlafandyPorting/linc_luajit-0.7.3"
     },
     {
       "name": "colyseus",
