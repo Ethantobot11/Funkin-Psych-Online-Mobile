@@ -40,8 +40,6 @@ class SkinsState extends MusicBeatState {
 	final accept:String = (Controls.instance.mobileC) ? "A" : "ACCEPT";
 	static var backClass:Class<Dynamic>;
 
-	static var backClass:Class<Dynamic>;
-
 	var reloadedState:Bool = false;
 	public function new() {
 		super();
